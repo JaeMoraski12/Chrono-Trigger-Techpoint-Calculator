@@ -20,11 +20,21 @@ class TechPointCounter:
     def change_characters(self):
         for i in range(len(self.character)):
             print(', '.join([f"[{j+1}] {name}" for j, name in enumerate(self.sample_names)]))
-            player = input(f'Who is in the party at position {i+1}? ')
-            if player == '':
-                self.character[i] = None
-            else:
-                self.character[i] = self.sample[self.sample_names[int(player) - 1]]
+            while True:
+                player = input(f'Who is in the party at position {i+1}? ')
+                if player == '':
+                    self.character[i] = None
+                    break
+                try: 
+                    int(player)
+                except ValueError as e:
+                    print('You typed an invalid value try again')
+                if player.isdigit():
+                    if int(player) > 7:
+                        print("Typed in a nonexistent character. Try again.\n")
+                    else:
+                        self.character[i] = self.sample[self.sample_names[int(player) - 1]]
+                        break
         self.show_character()
 
     def show_character(self):
